@@ -20,4 +20,16 @@ class Post extends Model
 
     // protected $guarded = ['id'];
 
+
+    //There is two ways to change the default selection of object instead of the id
+
+    //1 - override getRouteKeyName function which return the attribute name that you want to get object by it
+    public function getRouteKeyName(){
+        return 'slug';
+    }
+
+    //2- inside route we add to parameter :nameOfAttribute
+    //Route::get('posts/{post:slug}', function (Post $post) {});
+
+
 }

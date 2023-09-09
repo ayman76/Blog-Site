@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,9 +22,9 @@ Route::get('/', function () {
 });
 
 //Route to get single post and it accepts only alphabetic, _ and -
-Route::get('posts/{post}', function ($id) {
+Route::get('posts/{post}', function (Post $post) {
 
     return view('post', [
-        'post' => Post::findOrFail($id),
+        'post' => $post,
     ]);
 });
