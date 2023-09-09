@@ -17,8 +17,13 @@ use App\Models\Post;
 //Route to get all posts
 Route::get('/', function () {
 
+
+    //to prevent N+1 Problem that query called many times in category as a lazy loading we need it to be eager
+    //for each post it calls a query to get its category this is wrong
+    //to fix it we use with('category')->get before all function
+
     return view('posts', [
-        "posts" => Post::all(),
+        "posts" => Post::with('category')->get(),
     ]);
 });
 
