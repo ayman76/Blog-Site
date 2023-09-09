@@ -13,7 +13,7 @@ class Post extends Model
     // We have two ways to make our attributes be fillable and accept values to insert
 
     //1- Using Fillable which we give it all attributes that we need to give it values
-    protected $fillable = ['title', 'excerpt', 'body'];
+    protected $fillable = ['title', 'excerpt', 'body', 'category_id', 'slug'];
 
     //2- Using guarded which we give it attributes that we don't need to give it values to be inserted
     //like 'id' which it auto increment in database
@@ -24,7 +24,8 @@ class Post extends Model
     //There is two ways to change the default selection of object instead of the id
 
     //1 - override getRouteKeyName function which return the attribute name that you want to get object by it
-    public function getRouteKeyName(){
+    public function getRouteKeyName()
+    {
         return 'slug';
     }
 
@@ -32,4 +33,10 @@ class Post extends Model
     //Route::get('posts/{post:slug}', function (Post $post) {});
 
 
+    public function category()
+    {
+
+        //hasOne, hasMany, belongsTo, belongsToMany
+        return $this->belongsTo(Category::class);
+    }
 }
