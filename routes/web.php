@@ -25,9 +25,9 @@ Route::get('/', function () {
 });
 
 //Route to get single post and it accepts only alphabetic, _ and -
-Route::get('posts/{post}', function ($slug) {
+Route::get('posts/{post}', function ($id) {
 
     return view('post', [
-        'post' => Post::findOrFail($slug),
+        'post' => Post::findOrFail($id),
     ]);
 });
