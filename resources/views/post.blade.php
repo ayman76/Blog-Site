@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('components.layout')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/app.css">
-    <title>Document</title>
-</head>
-
-<body>
-
+@section('content')
     <article>
-       <h1><?= $post->title?></h1>
-       <div>
-            <?= $post->body?>
-       </div>
+        <h1>{{ $post->title }}</h1>
+        <div>
+            {!! $post->body !!}
+        </div>
     </article>
 
     <a href="/">Go Back</a>
-
-</body>
-
-</html>
+@endsection
