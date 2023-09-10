@@ -17,54 +17,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::truncate();
-        Post::truncate();
-        Category::truncate();
-
         $user =  User::factory()->create();
 
-        $perosnal = Category::create([
-            'name' => "Personal",
-            'slug' => "personal",
-        ]);
-
-        $work = Category::create([
-            'name' => "Work",
-            'slug' => "work",
-        ]);
-
-        $hobby = Category::create([
-            'name' => "Hobby",
-            'slug' => "hobby",
-        ]);
-
-
-
-        Post::create([
-            'title' => "My Family Blog",
-            'slug' => "my-family-blog",
-            'excerpt' => '<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>',
-            'body' => "<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum distinctio, sint dolorum voluptates ratione nostrum itaque iure excepturi ducimus. Illum expedita unde sequi repudiandae necessitatibus. Sit iure ipsum delectus amet.</p>",
-            'category_id' => $perosnal->id,
+        //This will allow us to set all posts to same user
+        Post::factory(5)->create([
             'user_id' => $user->id,
         ]);
 
-        Post::create([
-            'title' => "My Work Blog",
-            'slug' => "my-work-blog",
-            'excerpt' => '<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>',
-            'body' => "<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum distinctio, sint dolorum voluptates ratione nostrum itaque iure excepturi ducimus. Illum expedita unde sequi repudiandae necessitatibus. Sit iure ipsum delectus amet.</p>",
-            'category_id' => $work->id,
-            'user_id' => $user->id,
-        ]);
-
-        Post::create([
-            'title' => "My Hobbies Blog",
-            'slug' => "my-hobbies-blog",
-            'excerpt' => '<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>',
-            'body' => "<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum distinctio, sint dolorum voluptates ratione nostrum itaque iure excepturi ducimus. Illum expedita unde sequi repudiandae necessitatibus. Sit iure ipsum delectus amet.</p>",
-            'category_id' => $hobby->id,
-            'user_id' => $user->id,
-        ]);
+        //This is default way that each post will have a unique user and category
+        // Post::factory(5)->create();
     }
 }
