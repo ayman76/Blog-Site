@@ -25,7 +25,7 @@ Route::get('/', function () {
     //to fix it we use with('category')->get before all function
 
     return view('posts', [
-        "posts" => Post::latest()->with(['category', 'author'])->get(),
+        "posts" => Post::latest()->get(),
     ]);
 });
 
