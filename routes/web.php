@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +19,36 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 //Route to get all posts
 Route::get('/', function () {
 
+
+    //to prevent N+1 Problem that query called many times in category as a lazy loading we need it to be eager
+    //for each post it calls a query to get its category this is wrong
+    //to fix it we use with('category')->get before all function
+
     return view('posts', [
-        "posts" => Post::all(),
+        "posts" => Post::latest()->get(),
     ]);
 });
 
 //Route to get single post and it accepts only alphabetic, _ and -
-Route::get('posts/{post}', function ($slug) {
+Route::get('posts/{post}', function (Post $post) {
 
     return view('post', [
-        'post' => Post::findOrFail($slug),
+        'post' => $post,
+    ]);
+});
+
+//Route to get all post with specific category
+Route::get('categories/{category:slug}', function (Category $category) {
+
+    return view('posts', [
+        'posts' => $category->posts,
+    ]);
+});
+
+//Route to get all post with its author
+Route::get('authors/{author:username}', function (User $author) {
+
+    return view('posts', [
+        'posts' => $author->posts,
     ]);
 });
