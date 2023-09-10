@@ -41,7 +41,9 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    //We Change the name of function to author to make code more readable and understandable that each post have author not user
+    //and we add parameter to belongsTo function that is foreignKey of User
+    public function author(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
