@@ -35,7 +35,7 @@ Route::get('posts/{post}', function (Post $post) {
     ]);
 });
 
-
+//Route to get all post with specific category
 Route::get('categories/{category:slug}', function (Category $category) {
 
     return view('posts', [
