@@ -41,6 +41,18 @@ class Post extends Model
     //Route::get('posts/{post:slug}', function (Post $post) {});
 
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query
+                ->where('title', 'like', '%' . request('search') . '%')
+                ->orWhere('title', 'like', '%' . request('search') . '%')
+        );
+    }
+
+
     public function category()
     {
 
