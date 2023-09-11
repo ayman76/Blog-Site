@@ -43,6 +43,8 @@ class Post extends Model
 
     public function scopeFilter($query, array $filters)
     {
+
+        //Query to get posts that have specific words
         $query->when(
             $filters['search'] ?? false,
             fn ($query, $search) =>
@@ -65,6 +67,7 @@ class Post extends Model
         // );
 
         //Second Approach
+        //Query to get posts for specific category
         $query->when(
             $filters['category'] ?? false,
             fn ($query, $category) =>
@@ -72,6 +75,17 @@ class Post extends Model
                 'category',
                 fn ($query) =>
                 $query->where('slug', $category)
+            )
+        );
+
+        // Query to get posts related to specific author
+        $query->when(
+            $filters['author'] ?? false,
+            fn ($query, $author) =>
+            $query->whereHas(
+                'author',
+                fn ($query) =>
+                $query->where('username', $author)
             )
         );
     }
