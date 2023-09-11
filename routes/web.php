@@ -30,7 +30,7 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('posts/{post}', [PostController::class, 'show'])->name('showPost');
 
 //Route to get all post with specific category
-Route::get('categories/{category:slug}', [CategoryController::class, 'show'])->name('category');
+// Route::get('categories/{category:slug}', [CategoryController::class, 'show'])->name('category');
 
 //Route to get all post with its author
-Route::get('authors/{author:username}', [UserController::class, 'show'])->name('showAuthor');
+// Route::get('authors/{author:username}', [UserController::class, 'show'])->name('showAuthor');

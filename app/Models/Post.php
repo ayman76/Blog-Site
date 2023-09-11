@@ -43,12 +43,64 @@ class Post extends Model
 
     public function scopeFilter($query, array $filters)
     {
+
+        //Query to get posts that have specific words
         $query->when(
             $filters['search'] ?? false,
             fn ($query, $search) =>
+            //This is the old version
+            //we make this because the previous version was gives us move rows than expected due to
+            //SELECT * FROM `posts` WHERE `title` like '%dicta%' or `title` like '%dicta%' and exists (SELECT * FROM `categories`
+            // WHERE `posts`.`category_id` = `categories`.`id` and `slug` = 'doloribus-beatae-quae-et-quasi')) ORDER BY `created_at` DESC
+            // $query
+            // ->where('title', 'like', '%' . request('search') . '%')
+            // ->orWhere('title', 'like', '%' . request('search') . '%')
+
+            //This is the new version
+            //SELECT * FROM `posts` WHERE (`title` like '%dicta%' or `title` like '%dicta%') and exists (SELECT * FROM `categories`
+            // WHERE `posts`.`category_id` = `categories`.`id` and `slug` = 'doloribus-beatae-quae-et-quasi')) ORDER BY `created_at` DESC
+            // $query->where(fn ($query) =>
+            $query->where(fn ($query) =>
             $query
                 ->where('title', 'like', '%' . request('search') . '%')
-                ->orWhere('title', 'like', '%' . request('search') . '%')
+                ->orWhere('title', 'like', '%' . request('search') . '%'))
+
+        );
+
+        //First Approach to get post that have specific category
+        // $query->when(
+        //     $filters['category'] ?? false,
+        //     fn ($query, $category) =>
+        //     $query
+        //         ->whereExists(
+        //             fn ($query) =>
+        //             $query->from('categories')
+        //                 ->whereColumn('categories.id', 'posts.category_id')
+        //                 ->where('categories.slug', $category)
+        //         )
+        // );
+
+        //Second Approach
+        //Query to get posts for specific category
+        $query->when(
+            $filters['category'] ?? false,
+            fn ($query, $category) =>
+            $query->whereHas(
+                'category',
+                fn ($query) =>
+                $query->where('slug', $category)
+            )
+        );
+
+        // Query to get posts related to specific author
+        $query->when(
+            $filters['author'] ?? false,
+            fn ($query, $author) =>
+            $query->whereHas(
+                'author',
+                fn ($query) =>
+                $query->where('username', $author)
+            )
         );
     }
 
