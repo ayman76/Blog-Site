@@ -24,8 +24,18 @@ Route::get('/', function () {
     //for each post it calls a query to get its category this is wrong
     //to fix it we use with('category')->get before all function
 
+    $posts = Post::latest();
+
+    if(request('search')){
+        $posts
+            ->where('title', 'like', '%'. request('search'). '%')
+            ->orWhere('title', 'like', '%'. request('search'). '%');
+
+    }
+
+
     return view('posts', [
-        "posts" => Post::latest()->get(),
+        "posts" => $posts->get(),
         "categories" => Category::all(),
     ]);
 })->name('home');
