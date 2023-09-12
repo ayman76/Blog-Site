@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
     ];
 
     /**
@@ -43,8 +44,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    //2- Using Mutator in Model Class
+    public function setPasswordAttribute($password)
+    {
 
-    public function posts(){
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 }
