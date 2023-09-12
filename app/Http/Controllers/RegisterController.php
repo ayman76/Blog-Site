@@ -25,6 +25,13 @@ class RegisterController extends Controller
 
         // dd('Request Successfully Submitted');
 
+        //There are two ways to encrypt password
+        //1 - using bcrypt function directly
+        //Second way in Model Class
+
+        // $attributes['password'] = bcrypt($attributes['password']);
+
+
         User::create($attributes);
 
         return redirect('/');
