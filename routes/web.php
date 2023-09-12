@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
@@ -30,6 +31,8 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 
 //Route to get single post and it accepts only alphabetic, _ and -
 Route::get('posts/{post}', [PostController::class, 'show'])->name('showPost');
+
+Route::post('posts/{post:slug}/comments', [PostCommentController::class, 'store']);
 
 //Route to get all post with specific category
 // Route::get('categories/{category:slug}', [CategoryController::class, 'show'])->name('category');
